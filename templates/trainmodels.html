@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training Results | OCD-DL System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --primary: #800020;
+    --secondary: #ffd700;
+    --text: #343a40;
+}
+
+/* ===== BODY ===== */
+body {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    background-image: url("{{ url_for('static', filename='images/1.jpg') }}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text);
+}
+
+/* ===== HEADER ===== */
+.app-header {
+    background: var(--primary);
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.menu-btn {
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.header-title {
+    color: white;
+    font-size: 26px;
+    font-family: 'Merriweather', serif;
+}
+
+/* ===== HEADER BUTTONS ===== */
+.header-right a {
+    text-decoration: none;
+    margin-left: 8px;
+}
+
+.header-right button {
+    padding: 8px 16px;
+    background: var(--primary);
+    color: white;
+    border: 2px solid var(--secondary);
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.header-right button:hover {
+    background: #6a001a;
+}
+
+.header-right .active {
+    background: var(--secondary);
+    color: var(--primary);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 260px;
+    height: 100%;
+    background: var(--primary);
+    padding-top: 70px;
+    transition: 0.3s;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.3);
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px 25px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.sidebar a:hover {
+    background: #6a001a;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+}
+
+/* ===== CARD ===== */
+.card {
+    width: 99%;
+    max-width: 1400px;
+    margin: 110px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+.card h2, .card h3 {
+    font-family: 'Merriweather', serif;
+    color: var(--primary);
+    text-align: center;
+}
+
+/* ===== TABLE ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+th {
+    background: var(--primary);
+    color: white;
+}
+
+/* ===== IMAGE ===== */
+.result-img {
+    display: block;
+    margin: 30px auto;
+    max-width: 95%;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* ===== ACTIONS ===== */
+.actions {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.actions a button {
+    padding: 10px 22px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.actions a button:hover {
+    background: #6a001a;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="app-header">
+    <div class="header-left">
+        <span class="menu-btn" onclick="openMenu()">☰</span>
+        <div class="header-title">📊 Training Results</div>
+    </div>
+
+    <div class="header-right">
+        <a href="/admin_dashboard"><button>Dashboard</button></a>
+        <a href="/upload"><button>Upload</button></a>
+        <a href="/preprocess"><button>Preprocess</button></a>
+        <a href="/train_models"><button class="active">Train</button></a>
+        <a href="/comparison"><button>Compare</button></a>
+        <a href="/manage_users"><button>Users</button></a>
+        <a href="/admin_logout"><button>Logout</button></a>
+    </div>
+</div>
+
+<!-- SIDEBAR -->
+<div id="sidebar" class="sidebar">
+    <a href="/upload">📁 Upload Dataset</a>
+    <a href="/preprocess">⚙️ Preprocess</a>
+    <a href="/train_models">🤖 Train Models</a>
+    <a href="/comparison">📊 Comparison</a>
+    <a href="/manage_users">👥 Manage Users</a>
+    <a href="/admin_logout">🚪 Logout</a>
+</div>
+
+<div id="overlay" class="overlay" onclick="closeMenu()"></div>
+
+<!-- MAIN CONTENT -->
+<div class="card">
+    <h2>Algorithm Performance Comparison</h2>
+
+    <table>
+        <tr>
+            <th>Algorithm</th>
+            <th>Accuracy</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F1 Score</th>
+            <th>Support</th>
+        </tr>
+
+        {% for algo, vals in accuracies.items() %}
+        <tr>
+            <td>{{ algo }}</td>
+            <td>{{ "%.4f"|format(vals["Accuracy"]) }}</td>
+            <td>{{ "%.4f"|format(vals["Precision"]) }}</td>
+            <td>{{ "%.4f"|format(vals["Recall"]) }}</td>
+            <td>{{ "%.4f"|format(vals["F1"]) }}</td>
+            <td>{{ vals["Support"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    
+</div>
+
+<script>
+function openMenu() {
+    document.getElementById("sidebar").style.left = "0";
+    document.getElementById("overlay").style.display = "block";
+}
+function closeMenu() {
+    document.getElementById("sidebar").style.left = "-260px";
+    document.getElementById("overlay").style.display = "none";
+}
+</script>
+
+</body>
+</html>

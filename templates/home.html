@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCD Detection System - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Warm Color Palette --- */
+        /* Primary/Main: #800020 (Deep Maroon) */
+        /* Secondary/Action: #ffd700 (Golden Yellow) */
+        /* Background: #fff8e1 (Very Light Cream/Tan) */
+        /* Text: #343a40 (Dark Gray) */
+
+        /* --- Global Styles --- */
+        body {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #343a40;
+    line-height: 1.7;
+
+    /* 🔥 Background Image */
+    background-image: url("{{ url_for('static', filename='images/ocd.jpg') }}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+
+        /* Headings Font */
+        h1, h2, h3 {
+            font-family: 'Merriweather', serif;
+        }
+
+        /* --- Icons Style (Placeholder) --- */
+        .icon-fa {
+            margin-right: 8px;
+            font-size: 1.1em;
+        }
+
+        /* --- Header / Navigation Bar --- */
+        .app-header {
+            background: #800020; /* Primary Deep Maroon Header */
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* Nav Buttons */
+        .header-buttons a {
+            text-decoration: none;
+            margin-left: 15px;
+        }
+        
+        .header-buttons button {
+            padding: 10px 20px;
+            border: 2px solid; 
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: background 0.3s, color 0.3s, transform 0.2s;
+            display: inline-flex; 
+            align-items: center;
+        }
+
+        /* Home Button (Active/Primary link) */
+        .nav-home-btn {
+            background: #ffd700; /* Secondary Golden Yellow */
+            color: #800020; /* Maroon Text */
+            border-color: #ffd700;
+        }
+
+        /* Login Buttons (Inverse/Outline Style) */
+        .login-btn-user, .login-btn-admin {
+            background: #800020; /* Maroon background for contrast */
+            color: white; 
+            border-color: #ffd700; /* Golden border */
+        }
+        
+        .login-btn-user:hover, .login-btn-admin:hover {
+            background: #6a001a; /* Darker Maroon on hover */
+            transform: translateY(-1px);
+        }
+        
+        .nav-home-btn:hover {
+            background: #e6c500; /* Darker Gold on hover */
+        }
+
+        /* --- Hero Section (Content Focus) --- */
+        .hero-section {
+            background: white; /* Clean contrast */
+            padding: 100px 50px;
+            text-align: center;
+            margin-bottom: 50px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            border-bottom: 5px solid #ffd700; /* Action accent */
+        }
+
+        .hero-section h1 {
+            color: #800020; /* Primary Maroon Title */
+            font-size: 52px;
+            margin-bottom: 15px;
+        }
+
+        .hero-section p {
+            color: #555;
+            font-size: 22px;
+            font-weight: 300;
+            max-width: 900px;
+            margin: 0 auto 40px;
+        }
+
+        /* Hero Action Button */
+        .hero-section .login-btn-user {
+            background: #ffd700; /* Golden Yellow for maximum attention */
+            color: #800020; 
+            padding: 18px 40px;
+            font-size: 20px;
+            border-color: #800020;
+            border-width: 3px;
+            font-weight: 700;
+        }
+        
+        /* --- Main Content Area --- */
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            border: 1px solid #f0f0f0;
+        }
+
+        .feature-card img {
+            width: 130px; 
+            height: 130px;
+            object-fit: cover;
+            border-radius: 50%; 
+            border: 5px solid #800020; /* Primary Maroon Border */
+            min-width: 130px;
+        }
+        
+        .feature-text h3 {
+            color: #800020; /* Primary Maroon Heading */
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .feature-card:nth-child(odd) {
+            border-left: 8px solid #ffd700; /* Gold Accent Strip */
+        }
+        
+        .feature-card:nth-child(even) {
+            flex-direction: row-reverse; 
+            border-right: 8px solid #ffd700; /* Gold Accent Strip */
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .app-header {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+            .header-buttons {
+                margin-top: 15px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .header-buttons a {
+                margin: 5px;
+            }
+            .hero-section {
+                padding: 60px 20px;
+            }
+            .hero-section h1 {
+                font-size: 40px;
+            }
+            .feature-card, .feature-card:nth-child(even) {
+                flex-direction: column;
+                text-align: center;
+                border-left: 8px solid #ffd700; /* Keep left border on mobile for all */
+                border-right: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-header">
+    <div class="header-title">
+        🧠 OCD-DL System
+    </div>
+    <div class="header-buttons">
+        <a href="/">
+            <button class="nav-home-btn active">
+                <span class="icon-fa">🏠</span> Home
+            </button>
+        </a>
+        <a href="/user_login">
+            <button class="login-btn-user">
+                <span class="icon-fa">🧑‍🔬</span> Remote User
+            </button>
+        </a>
+        <a href="/admin_login">
+            <button class="login-btn-admin">
+                <span class="icon-fa">🛠️</span> Service Provider
+            </button>
+        </a>
+    </div>
+</div>
+
+<div class="hero-section">
+    <h1>AI-Powered OCD Type Prediction</h1>
+    <p>
+        Leveraging state-of-the-art Deep Learning models to provide rapid and accurate classification of OCD subtypes, aiding early diagnosis and personalized treatment planning.
+    </p>
+    <a href="/user_login">
+        <button class="login-btn-user">
+            <span class="icon-fa">🚀</span> Start Analysis
+        </button>
+    </a>
+</div>
+
+<div class="main-container">
+
+    <div class="feature-card">
+        <img src="{{ url_for('static', filename='images/ml.jpg') }}" alt="Machine Learning Icon">
+        
+        <div class="feature-text">
+            <h3>Precision Deep Learning</h3>
+            <p>
+                Our core engine utilizes sophisticated Convolutional Neural Networks (CNNs) trained on multimodal data, including imaging and behavioral metrics, to achieve high diagnostic accuracy (over 98%).
+            </p>
+        </div>
+    </div>
+
+    <div class="feature-card">
+        <img src="{{ url_for('static', filename='images/security.jpg') }}" alt="Security Icon">
+
+        <div class="feature-text">
+            <h3>Secure & Compliant Platform</h3>
+            <p>
+                All patient data is handled with strict adherence to privacy regulations. We use end-to-end encryption and anonymization protocols, ensuring HIPAA and GDPR compliance for global use.
+            </p>
+        </div>
+    </div>
+
+    <div class="feature-card">
+        <img src="{{ url_for('static', filename='images/report.jpg') }}" alt="Report Icon">
+
+        <div class="feature-text">
+            <h3>Detailed Diagnostic Reporting</h3>
+            <p>
+                Receive comprehensive reports with confidence scores, suggested OCD subtypes, and feature importance analysis, giving clinicians actionable insights for better patient outcomes.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
